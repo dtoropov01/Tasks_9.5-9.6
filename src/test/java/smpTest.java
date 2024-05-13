@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.List;
 import java.time.Duration;
 
 public class smpTest {
@@ -23,9 +22,14 @@ public class smpTest {
     }
 
     @Test
-    public void addObject() throws InterruptedException
+    public void addObject()
     {
         login();
+
+        // открыли избранное
+        waitElement("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
+        click("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
+
         // нажать кнопку добавить в избранное
         click("//span[@id='favorite']");
         waitElement("//input[@id='gwt-debug-itemTitle-value']");
@@ -38,10 +42,8 @@ public class smpTest {
 
         // нажать сохранить
         click("//div[@id='gwt-debug-apply']");
-        //waitElement("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
 
         // проверить
-        //click("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
         WebElement element = driver.findElement(By.xpath("//a[@id='gwt-debug-title']/div"));
         String textElement = element.getText();
         String msg = String.format("Название объекта не совпало. Ожидалось: %s, Получили: %s", "Торопов Дмитрий", textElement);
@@ -55,12 +57,20 @@ public class smpTest {
         click("//div[@id='gwt-debug-YES']");
         waitElement("//div[@id='gwt-debug-apply']");
         click("//div[@id='gwt-debug-apply']");
+
+        // закрыли избранное
+        waitElement("//div[@id='gwt-debug-collapseNavTreeButton']/div");
+        click("//div[@id='gwt-debug-collapseNavTreeButton']/div");
     }
 
     @Test
     public void deleteObject()
     {
         login();
+
+        // открыли избранное
+        waitElement("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
+        click("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
 
         // нажать кнопку добавить в избранное
         click("//span[@id='favorite']");
@@ -74,10 +84,8 @@ public class smpTest {
 
         // нажать сохранить
         click("//div[@id='gwt-debug-apply']");
-        waitElement("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
 
         // удалить
-        click("//div[@id='gwt-debug-12c338ac-168c-348b-a88c-b9594aed4be9']/div");
         click("//span[@id='gwt-debug-editFavorites']");
         waitElement("//table[@id='gwt-debug-favoritesEditTable']/tbody/tr/td[6]/div/span");
         click("//table[@id='gwt-debug-favoritesEditTable']/tbody/tr/td[6]/div/span");
@@ -89,6 +97,10 @@ public class smpTest {
         // проверить
         WebElement element = driver.findElement(By.xpath("//a[@id='gwt-debug-title']/div"));
         Assertions.assertTrue(element.isDisplayed(), "Объект не удалился");
+
+        // закрыли избранное
+        waitElement("//div[@id='gwt-debug-collapseNavTreeButton']/div");
+        click("//div[@id='gwt-debug-collapseNavTreeButton']/div");
     }
 
     private void login()
